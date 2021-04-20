@@ -8,6 +8,4 @@ import { Component, OnInit } from '@angular/core';
 export class NotfoundComponent {
 
   year = new Date().getFullYear();
-
-
 }
