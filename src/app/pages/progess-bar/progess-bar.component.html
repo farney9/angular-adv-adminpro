@@ -1,1 +1,47 @@
-<p>progess-bar works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Animated Striped bar </h4>
+                <div class="progress m-t-30">
+                    <div class="progress-bar bg-info active progress-bar-striped"
+                        style="height:15px;" 
+                        [style.width] = "getProgreso1"
+                        role="progressbar"> 
+                        <span>{{progreso1}}% Complete</span>
+                    </div>
+                </div>
+                <div class="progress m-t-30">
+                    <div class="progress-bar bg-success active progress-bar-striped"
+                        style="height:15px;" 
+                        [style.width] = "getProgreso2"
+                        role="progressbar"> 
+                        <span>{{progreso2}}% Complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <app-increaser caption="Progress azul" 
+                               (valor)="progreso1 = $event" 
+                               [valor] = "progreso1" >
+                </app-increaser>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <app-increaser (valor)="progreso2 = $event" 
+                               [valor] = "progreso2" 
+                               [btnClass]="'btn-success'">
+                </app-increaser>
+            </div>
+        </div>
+    </div>
+</div>
