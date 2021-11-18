@@ -11,6 +11,8 @@ import { ProgessBarComponent } from './progess-bar/progess-bar.component';
 import { Graph1Component } from './graph1/graph1.component';
 import { PagesComponent } from './pages.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { PromesasComponent } from './promesas/promesas.component';
+import { RxjsComponent } from './rxjs/rxjs.component';
 
 
 
@@ -20,7 +22,9 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     ProgessBarComponent,
     Graph1Component,
     PagesComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
+    PromesasComponent,
+    RxjsComponent
   ],
   exports: [
     DashboardComponent,
