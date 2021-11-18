@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, interval } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, interval, Subscription } from 'rxjs';
 import { retry, take, map, filter } from "rxjs/operators";
 
 @Component({
@@ -8,7 +8,9 @@ import { retry, take, map, filter } from "rxjs/operators";
   styles: [
   ]
 })
-export class RxjsComponent implements OnInit {
+export class RxjsComponent implements OnInit, OnDestroy {
+
+  internalSubs: Subscription;
 
   constructor() { 
 
@@ -21,9 +23,11 @@ export class RxjsComponent implements OnInit {
     //   () => console.info('Obs terminado...')
     // );
 
-    this.retornaIntervalo()
-    .subscribe( console.log )
+    this.internalSubs = this.retornaIntervalo().subscribe( console.log )
 
+  }
+  ngOnDestroy(): void {
+    this.internalSubs.unsubscribe(); //Usar OnDestroy para llamar el unsuscribe() y no permitir que el observable siga emitiendo indefinidamente
   }
 
   retornaIntervalo(): Observable<number> {
