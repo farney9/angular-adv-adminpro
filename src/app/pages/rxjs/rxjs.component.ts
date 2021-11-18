@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, interval } from 'rxjs';
-import { retry, take, map } from "rxjs/operators";
+import { retry, take, map, filter } from "rxjs/operators";
 
 @Component({
   selector: 'app-rxjs',
@@ -27,10 +27,11 @@ export class RxjsComponent implements OnInit {
   }
 
   retornaIntervalo(): Observable<number> {
-    return interval(1000)
+    return interval(100)
             .pipe(
-              take(4),
-              map( valor => valor + 1)
+              map( valor => valor + 1), // 0 => 1
+              filter(newValor => ( newValor % 2 === 0) ? true: false), // Filter sirve para determinar si quiero emitir un valor o NO de forma condicional
+              take(10),
             )
 
   }
