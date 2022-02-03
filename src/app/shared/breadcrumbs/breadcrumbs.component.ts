@@ -17,11 +17,11 @@ export class BreadcrumbsComponent implements OnDestroy  {
   constructor( private router: Router) {
     
     this.tituloSubs$ = this.getRouteArguments()
-                              .subscribe( ({title}) => { //usando la desestructuracion del objeto que viene en data y accediendo a la propiedad title
-                              // console.log( data );
-                              this.titulo = title;
-                              document.title = `AdminPro - ${title}`;
-                            })
+      .subscribe( ({title}) => { //usando la desestructuracion del objeto que viene en data y accediendo a la propiedad title
+      // console.log( data );
+      this.titulo = title;
+      document.title = `AdminPro - ${title}`;
+    })
   }
 
   ngOnDestroy(): void {
