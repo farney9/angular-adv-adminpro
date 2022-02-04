@@ -27,9 +27,12 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <app-increaser caption="Progress azul" 
-                               (valor)="progreso1 = $event" 
-                               [valor] = "progreso1" >
+                <app-increaser 
+                    caption="Progress azul"
+                    [btnClass]="'btn-info'" 
+                    (valorSalida)="progreso1 = $event" 
+                    [valor] = "progreso1"
+                >
                 </app-increaser>
             </div>
         </div>
@@ -37,9 +40,12 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <app-increaser (valor)="progreso2 = $event" 
-                               [valor] = "progreso2" 
-                               [btnClass]="'btn-success'">
+                <app-increaser 
+                    caption="Progress verde"
+                    [btnClass]="'btn-success'"
+                    (valorSalida)="progreso2 = $event" 
+                    [valor] = "progreso2" 
+                >
                 </app-increaser>
             </div>
         </div>

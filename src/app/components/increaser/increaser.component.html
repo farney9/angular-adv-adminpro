@@ -15,7 +15,8 @@
         max="100" 
         class="form-control" 
         [ngClass]="{'is-invalid': progress > 100 || progress < 0}"
-        placeholder="Progress">
+        placeholder="Progress"
+    >
     <span class="input-group-btn">
         <button 
             (click)="changeValue(+5)"

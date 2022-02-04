@@ -7,15 +7,18 @@ export class SidebarService {
 
   menu: any[] = [
     {
-      title: 'Dashboard!!',
+      title: 'Dashboard',
       icon: 'mdi mdi-gauge',
       submenu: [
-        { title: 'Main', url:  '/'},
-        { title: 'Progress Bar', url:  '/progress'},
-        { title: 'Graphic', url:  '/graph1'}
+        {title: 'Graphics', url: 'graph1'},
+        {title: 'Main', url: '/'},
+        {title: 'Progress bar', url: 'progress'},
+        {title: 'Promesas', url: 'promesas'},
+        {title: 'RxJs', url: 'rxjs'}
       ]
     }
   ];
 
-  constructor() { }
+constructor() { }
+
 }

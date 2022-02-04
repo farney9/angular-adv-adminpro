@@ -7,13 +7,13 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
   ]
 })
 export class IncreaserComponent implements OnInit {
-  // En caso de quere renombrar el argimento de hace de  esta forma
+  // 'valor' es el nombre con el cual quiero renombar  el argumento que se envía desde el componente padre
   @Input('valor') progress: number = 40;
   @Input() btnClass: string = 'btn-info';
-  @Output('valor') valorSalida: EventEmitter<number> = new EventEmitter();
+  @Output() valorSalida: EventEmitter<number> = new EventEmitter();
 
   ngOnInit() {
-  this.btnClass = `btn ${ this.btnClass}`    
+  this.btnClass = `btn ${this.btnClass}`    
   }
 
   changeValue(value: number) {
