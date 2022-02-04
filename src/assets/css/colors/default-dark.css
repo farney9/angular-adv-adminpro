@@ -19,13 +19,16 @@ File: scss
 /*Top bar
 *******************/
 .topbar {
-  background: #fff; }
+  background: #99abb4; }
   .topbar .top-navbar .navbar-header .navbar-brand .light-logo {
     display: none; }
   .topbar .top-navbar .navbar-nav > .nav-item > span {
-    color: #398bf7; }
-  .topbar .navbar-light .navbar-nav .nav-item > a.nav-link {
-    color: #a6b7bf; }
+    color: #  ; }
+  .topbar .navbar-light .navbar-nav .nav-item > a.nav-link 
+  {
+    color: #2a3e52; 
+    /* color: #a6b7bf;  */
+  }
     .topbar .navbar-light .navbar-nav .nav-item > a.nav-link:hover, .topbar .navbar-light .navbar-nav .nav-item > a.nav-link:focus {
       color: #242a33 !important; }
 
