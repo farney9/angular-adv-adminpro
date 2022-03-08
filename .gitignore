@@ -15,12 +15,15 @@ chrome-profiler-events*.json
 speed-measure-plugin*.json
 
 # IDEs and editors
-/.idea
+.idea/*
+!.idea/runConfigurations/
+!.idea/codeStyleSettings.xml
 .project
 .classpath
 .c9/
 *.launch
 .settings/
+xcuserdata/
 *.sublime-workspace
 
 # IDE - VSCode
@@ -44,4 +47,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-.angular/cache/13.2.4/angular-webpack/0834b6eb460a218b30be0bc64f4c3a18ddd2549e/0.pack
+.angular/cache/*

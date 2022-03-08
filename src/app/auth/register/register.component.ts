@@ -1,6 +1,7 @@
 import { Component, } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2'
 import { UserRegisterRequest } from '../models/request-user.model';
 
 @Component({
@@ -66,12 +67,19 @@ export class RegisterComponent {
       password: this.registerForm.controls.password.value
     }
 
-    this.userService.add(request).subscribe((res) => {
-      console.log('usuario creado');
-      console.log(res);
-    },
-    (err) => console.warn(err.error.msg)
-    );
-    
+    this.userService.add(request).subscribe(
+      (res) => {
+        console.log('usuario creado');
+        console.log(res);
+      },
+      (err) => {
+        // si hay error
+        Swal.fire({
+          title: 'Error!',
+          text: err.error.msg,
+          icon: 'error'
+        })
+      }
+    )
   }
 }

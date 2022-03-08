@@ -3,6 +3,11 @@ export interface UserRegisterRequest {
     email:  string,
     password:  string,
   }
+export interface UserLoginRequest {
+    email:  string,
+    password:  string,
+    isCheckedRememberme: boolean
+  }
 
   export interface UserRegisterResponse {
     name:   string,
