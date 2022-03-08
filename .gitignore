@@ -52,3 +52,4 @@ testem.log
 Thumbs.db
 .angular/cache/*
 .angular/cache/13.2.4/angular-webpack/*
+.angular/cache/13.2.4/angular-webpack/e27b1f4e44fbbc2872eb6b297c0a032c0f68ff02/index.pack
