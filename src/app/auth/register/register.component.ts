@@ -1,5 +1,7 @@
 import { Component, } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { UserRegisterRequest } from '../models/request-user.model';
 
 @Component({
   selector: 'app-register',
@@ -9,28 +11,30 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class RegisterComponent {
   //formato para email válido
   emailPattern = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-  
+
   isFormSubmited: boolean = false;
   registerForm: FormGroup;
 
-  constructor(private readonly fb: FormBuilder,) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly userService: UserService) {
     this.registerForm = this.fb.group({
-      name:                new FormControl('a', Validators.required),
-      email:               new FormControl('a@b.com', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]),
-      password:            new FormControl(null, [Validators.required, Validators.minLength(6)]),
-      passwordConfirm:     new FormControl(null, Validators.required),
+      name: new FormControl('a', Validators.required),
+      email: new FormControl('a@b.com', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]),
+      password: new FormControl('123456', [Validators.required, Validators.minLength(6)]),
+      passwordConfirm: new FormControl('123456', Validators.required),
       isCheckedTermsOfUse: new FormControl(null, Validators.required)
     },
-    {
-       validators: this.mustMatch('password', 'passwordConfirm')
-    })
+      {
+        validators: this.mustMatch('password', 'passwordConfirm')
+      })
   }
 
   // funcion f para tener accesso a los controles y sus propiedades desde el HTML
   get f() { return this.registerForm.controls }
 
   mustMatch(controlName: string, matchingControlName: string) {
-    return(formGroup: FormGroup) => {
+    return (formGroup: FormGroup) => {
       const control = formGroup.controls[controlName];
       const matchingControl = formGroup.controls[matchingControlName];
 
@@ -38,8 +42,8 @@ export class RegisterComponent {
         return
       }
 
-      if (control.value !== matchingControl.value ) {
-        matchingControl.setErrors({mustMatch: true});
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
       } else {
         matchingControl.setErrors(null);
       }
@@ -51,11 +55,23 @@ export class RegisterComponent {
     this.isFormSubmited = true;
     console.log(this.registerForm.value);
 
-    if (this.registerForm.valid) {
-      console.log('posteando formulario');
-    } else {
-      console.log('formulario no es válido');
-
+    if (this.registerForm.invalid) {
+      return;
     }
+
+    // POST user
+    const request: UserRegisterRequest = {
+      name: this.registerForm.controls.name.value,
+      email: this.registerForm.controls.email.value,
+      password: this.registerForm.controls.password.value
+    }
+
+    this.userService.add(request).subscribe((res) => {
+      console.log('usuario creado');
+      console.log(res);
+    },
+    (err) => console.warn(err.error.msg)
+    );
+    
   }
 }
