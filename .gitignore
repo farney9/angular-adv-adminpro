@@ -34,7 +34,7 @@ xcuserdata/
 !.vscode/extensions.json
 .history/*
 
-# misc
+# Misc
 /.sass-cache
 /connect.lock
 /coverage
@@ -43,8 +43,12 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+/reports
+/src/translations/template.*
+/src/environments/.env.*
 
 # System Files
 .DS_Store
 Thumbs.db
 .angular/cache/*
+.angular/cache/13.2.4/angular-webpack/*
