@@ -1,16 +1,11 @@
 
 
-export class User {
-    
-    constructor(
-        public name:   string,
-        public email:  string,
-        public password?:  string,
-        public image?:  string,
-        public google?: boolean,
-        public role?:   string,
-        public uid?:    string,
-    ) {} 
-
-    
+export interface UserModel {
+    name: string,
+    email: string,
+    password?: string,
+    image?: string,
+    google?: boolean,
+    role?: string,
+    uid?: string,
 }

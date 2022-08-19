@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2'
 import { UserRegisterRequest } from '../models/request-user.model';
@@ -17,14 +17,14 @@ export class RegisterComponent {
   registerForm: FormGroup;
 
   constructor(
-    private readonly fb: FormBuilder,
+    private  fb: FormBuilder,
     private readonly userService: UserService) {
     this.registerForm = this.fb.group({
-      name: new FormControl('a', Validators.required),
-      email: new FormControl('a@b.com', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]),
-      password: new FormControl('123456', [Validators.required, Validators.minLength(6)]),
-      passwordConfirm: new FormControl('123456', Validators.required),
-      isCheckedTermsOfUse: new FormControl(null, Validators.required)
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      passwordConfirm: ['', Validators.required],
+      isCheckedTermsOfUse: [null, Validators.required]
     },
       {
         validators: this.mustMatch('password', 'passwordConfirm')

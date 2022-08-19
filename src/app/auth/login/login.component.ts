@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 import { UserLoginRequest } from '../models/request-user.model';
+
+declare const google: any;
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('googleBtn') googleBtn: ElementRef;
 
   emailPattern = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
   isFormSubmited: boolean = false;
@@ -21,10 +25,41 @@ export class LoginComponent {
     private readonly fb: FormBuilder,
     private readonly userService: UserService) {
     this.loginForm = this.fb.group({
-      email: new FormControl('a@b.com', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]),
-      password: new FormControl('123456', [Validators.required, Validators.minLength(6)]),
-      isCheckedRememberme: new FormControl(false)
+      email: [localStorage.getItem('email') || '', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]],
+      password: ['123456', [Validators.required, Validators.minLength(6)]],
+      isCheckedRememberme: [localStorage.getItem('email') || null],
     })
+  }
+  ngAfterViewInit(): void {
+    this.googleInit();
+  }
+
+  googleInit() {
+    google.accounts.id.initialize({
+      client_id: "646045301133-u7tdr38u7lmrfgq1ivr97f7721cebjd3.apps.googleusercontent.com",
+      callback: (response: any) => this.handleCredentialResponse(response)
+    });
+    google.accounts.id.renderButton(
+      // document.getElementById("buttonDiv"),
+      this.googleBtn.nativeElement,
+      { theme: "outline", size: "large" }  // customization attributes
+    );
+  }
+
+  handleCredentialResponse(response: any) {
+    // console.log("Encoded JWT ID token: " + response.credential);
+    this.userService.loginGoogle(response.credential)
+      .subscribe(resp => {
+        console.log({login: resp});
+        this.router.navigateByUrl('/');
+
+      })
+  }
+
+ 
+
+  ngOnInit(): void {
+    this.loginForm.get('isCheckedRememberme').value;
   }
 
   // funcion f para tener accesso a los controles y sus propiedades desde el HTML
@@ -32,11 +67,12 @@ export class LoginComponent {
 
   login() {
     this.isFormSubmited = true;
-    console.log(this.loginForm.value);
+    // console.log(this.loginForm.value);
 
     if (this.loginForm.invalid) {
       return;
     }
+
 
     // Login
     const request: UserLoginRequest = {
@@ -46,8 +82,17 @@ export class LoginComponent {
     }
 
     this.userService.login(request).subscribe(
+
       (resp) => {
         console.log(resp);
+
+        if (this.loginForm.get('isCheckedRememberme').value) {
+          localStorage.setItem('email', this.loginForm.get('email').value);
+          localStorage.setItem('isCheckedRememberme', this.loginForm.get('isCheckedRememberme').value);
+        } else {
+          localStorage.removeItem('email')
+          localStorage.removeItem('isCheckedRememberme')
+        }
         // this.router.navigateByUrl('/');
 
       },
