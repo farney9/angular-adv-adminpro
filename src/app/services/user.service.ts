@@ -1,18 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from "rxjs/operators";
 import { environment } from 'src/environments/environment';
 import { UserLoginRequest, UserRegisterRequest } from '../auth/models/request-user.model';
 
+declare const google: any
+
 const base_url = environment.apiUrl;
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient,
+              private router: Router,
+              private ngZone: NgZone) { }
 
   validateToken(): Observable<boolean> {
     const token = localStorage.getItem('token') || '';
@@ -48,8 +54,11 @@ export class UserService {
       );
   }
 
-  logout() {
+  logOut() {
     localStorage.removeItem('token');
+    google.accounts.id.revoke('farney9@gmail.com', () => {
+      this.router.navigateByUrl('/login');
+    })
   }
 
   loginGoogle(token: string) {
