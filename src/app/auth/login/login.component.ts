@@ -50,13 +50,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
     // console.log("Encoded JWT ID token: " + response.credential);
     this.userService.loginGoogle(response.credential)
       .subscribe(resp => {
-        console.log({login: resp});
+        console.log({ login: resp });
+        //Navigate to dasboard
         this.router.navigateByUrl('/');
 
       })
   }
 
- 
+
 
   ngOnInit(): void {
     this.loginForm.get('isCheckedRememberme').value;
@@ -93,8 +94,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
           localStorage.removeItem('email')
           localStorage.removeItem('isCheckedRememberme')
         }
-        // this.router.navigateByUrl('/');
-
+        //Navigate to dasboard
+        this.router.navigateByUrl('/');
       },
       (err) => {
         // si hay error
@@ -105,7 +106,5 @@ export class LoginComponent implements OnInit, AfterViewInit {
         })
       }
     )
-
   }
-
 }
