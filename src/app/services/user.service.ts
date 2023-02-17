@@ -25,22 +25,27 @@ export class UserService {
     private ngZone: NgZone) { }
 
   validateToken(): Observable<boolean> {
+
+    google.accounts.id.initialize({
+      client_id: "646045301133-u7tdr38u7lmrfgq1ivr97f7721cebjd3.apps.googleusercontent.com",
+    })
     const token = localStorage.getItem('token') || '';
 
     return this.http.get(`${apiUrl}/login/renew`, {
       headers: { 'x-token': token }
     }).pipe(
-      tap((resp: any) => {
+      map((resp: any) => {
         // console.log(resp);
-        const {email, google, image, name, role, uid} = resp.userDB; // se usa la desestructuración de objetos
+        const {email, google, image = '', name, role, uid} = resp.userDB; // se usa la desestructuración de objetos
 
         this.user = new UserModel(name, email, '', image, google, role, uid);
         // console.log(this.user);
 
         localStorage.setItem('token', resp.token)
+        return true;
       }),
       // ahora transformamos la respuesta a un valor booleano
-      map(resp => true), // si se obtiene una respuesta retornamos true
+      // map(resp => true), // si se obtiene una respuesta retornamos true
       catchError(error => of(false)) // of permite crear un nuevo Observable en base al valor que se ponga como parametro
     );
   }
