@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.userService.login(request).subscribe(
 
       (resp) => {
-        console.log(resp);
+        // console.log(resp);
 
         if (this.loginForm.get('isCheckedRememberme').value) {
           localStorage.setItem('email', this.loginForm.get('email').value);

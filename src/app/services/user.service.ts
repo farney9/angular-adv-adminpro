@@ -5,10 +5,12 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from "rxjs/operators";
 import { environment } from 'src/environments/environment';
 import { UserLoginRequest, UserRegisterRequest } from '../auth/models/request-user.model';
+import { UserModel } from '../models/user.model';
 
 declare const google: any
 
-const base_url = environment.apiUrl;
+const apiUrl = environment.apiUrl;
+
 
 
 @Injectable({
@@ -16,17 +18,25 @@ const base_url = environment.apiUrl;
 })
 export class UserService {
 
+  user: UserModel;
+
   constructor(private readonly http: HttpClient,
-              private router: Router,
-              private ngZone: NgZone) { }
+    private router: Router,
+    private ngZone: NgZone) { }
 
   validateToken(): Observable<boolean> {
     const token = localStorage.getItem('token') || '';
 
-    return this.http.get(`${base_url}/login/renew`, {
+    return this.http.get(`${apiUrl}/login/renew`, {
       headers: { 'x-token': token }
     }).pipe(
       tap((resp: any) => {
+        // console.log(resp);
+        const {email, google, image, name, role, uid} = resp.userDB; // se usa la desestructuración de objetos
+
+        this.user = new UserModel(name, email, '', image, google, role, uid);
+        // console.log(this.user);
+
         localStorage.setItem('token', resp.token)
       }),
       // ahora transformamos la respuesta a un valor booleano
@@ -36,7 +46,7 @@ export class UserService {
   }
 
   add(body: UserRegisterRequest) {
-    return this.http.post(`${base_url}/usuario`, body)
+    return this.http.post(`${apiUrl}/usuario`, body)
       .pipe(
         tap((res: any) => {
           localStorage.setItem('token', res.token)
@@ -45,7 +55,7 @@ export class UserService {
   }
 
   login(body: UserLoginRequest) {
-    return this.http.post(`${base_url}/login`, body)
+    return this.http.post(`${apiUrl}/login`, body)
       .pipe(
         tap((res: any) => {
           // console.log(res);
@@ -62,7 +72,7 @@ export class UserService {
   }
 
   loginGoogle(token: string) {
-    return this.http.post(`${base_url}/login/google`, { token })
+    return this.http.post(`${apiUrl}/login/google`, { token })
       .pipe(
         tap((res: any) => { // tap me permite disparar un efecto secundario
           // console.log(res);
@@ -70,5 +80,4 @@ export class UserService {
         })
       )
   }
-
 }

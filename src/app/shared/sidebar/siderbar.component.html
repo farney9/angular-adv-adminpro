@@ -5,9 +5,9 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
                 <li class="user-profile">
-                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img
-                            src="./assets/images/users/profile.png" alt="user" /><span class="hide-menu">Steave Jobs
-                        </span></a>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <img [src]="user.showImageUrl" alt="user" /><span class="hide-menu">{{user.name}}</span>
+                    </a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="javascript:void()">My Profile </a></li>
                         <li><a href="javascript:void()">My Balance</a></li>
@@ -19,10 +19,11 @@
                 </li>
                 <li class="nav-devider"></li>
                 <li class="nav-small-cap">PERSONAL</li>
-                <li *ngFor="let item of menuItems"> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                <li *ngFor="let item of menuItems"> <a class="has-arrow waves-effect waves-dark" href="#"
+                        aria-expanded="false">
                         <i class="mdi mdi-gauge"></i>
                         <span class="hide-menu">
-                            {{ item.title }} 
+                            {{ item.title }}
                             <span class="label label-rouded label-themecolor pull-right">
                                 {{item.submenu.length}}
                             </span>
@@ -30,9 +31,8 @@
                     </a>
                     <ul aria-expanded="false" class="collapse">
                         <li *ngFor="let subMenuItem of item.submenu">
-                            <a [routerLink]="subMenuItem.url"
-                               routerLinkActive="active"
-                               [routerLinkActiveOptions]="{ exact: true }">{{ subMenuItem.title }}</a>
+                            <a [routerLink]="subMenuItem.url" routerLinkActive="active"
+                                [routerLinkActiveOptions]="{ exact: true }">{{ subMenuItem.title }}</a>
                         </li>
                     </ul>
                 </li>
