@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from "rxjs/operators";
 import { environment } from 'src/environments/environment';
 import { UserLoginRequest, UserRegisterRequest } from '../auth/models/request-user.model';
+import { UserProfileModel } from '../models/user-profile.model';
 import { UserModel } from '../models/user.model';
 
 declare const google: any
@@ -24,15 +25,23 @@ export class UserService {
     private router: Router,
     private ngZone: NgZone) { }
 
+    get token(): string {
+      return localStorage.getItem('token') || '';
+    }
+    get uid(): string {
+      return this.user.uid || '';
+    }
+
+
+
   validateToken(): Observable<boolean> {
 
     google.accounts.id.initialize({
       client_id: "646045301133-u7tdr38u7lmrfgq1ivr97f7721cebjd3.apps.googleusercontent.com",
     })
-    const token = localStorage.getItem('token') || '';
 
     return this.http.get(`${apiUrl}/login/renew`, {
-      headers: { 'x-token': token }
+      headers: { 'x-token': this.token }
     }).pipe(
       map((resp: any) => {
         // console.log(resp);
@@ -57,6 +66,15 @@ export class UserService {
           localStorage.setItem('token', res.token)
         })
       );
+  }
+
+  updateUser(body: UserProfileModel) { // tambien se podrria Crear una interfaz
+    body = {
+      ...body,
+      role: this.user.role
+    }
+    
+    return this.http.put(`${apiUrl}/usuario/${this.uid}`, body, {headers: { 'x-token': this.token }});
   }
 
   login(body: UserLoginRequest) {

@@ -9,7 +9,7 @@
                         <img [src]="user.showImageUrl" alt="user" /><span class="hide-menu">{{user.name}}</span>
                     </a>
                     <ul aria-expanded="false" class="collapse">
-                        <li><a href="javascript:void()">My Profile </a></li>
+                        <li><a routerLink="./profile" routerLinkActive="active">My Profile </a></li>
                         <li><a href="javascript:void()">My Balance</a></li>
                         <li><a href="javascript:void()">Inbox</a></li>
                         <!-- si no se pode el / en el RouterLink significa que se va a concatenar donde esté actualmente -->
