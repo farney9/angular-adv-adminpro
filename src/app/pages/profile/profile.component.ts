@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserModel } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -10,16 +11,18 @@ import { UserService } from '../../services/user.service';
 export class ProfileComponent implements OnInit {
 
   profileForm: FormGroup;
-
+  user: UserModel;
 
   constructor( private fb: FormBuilder,
-               private userService: UserService) { }
+               private userService: UserService) {
+                this.user = userService.user;
+               }
 
   ngOnInit(): void {
 
     this.profileForm = this.fb.group({
-      name: ['123', Validators.required],
-      email: ['abc', [Validators.required, Validators.email]],
+      name: [this.user.name, Validators.required],
+      email: [this.user.email, [Validators.required, Validators.email]],
     });
 
   }
@@ -27,9 +30,12 @@ export class ProfileComponent implements OnInit {
   updateProfile() {
     console.log(this.profileForm.value);
     this.userService.updateUser(this.profileForm.value)
-      .subscribe(resp => {
-        console.log(resp);
+      .subscribe((resp: any) => {
+        // console.log(resp);
 
+        const {name, email} = resp.user;
+        this.user.name = name;
+        this.user.email = email
       })
   }
 
