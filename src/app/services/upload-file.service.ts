@@ -27,11 +27,15 @@ export class UploadFileService {
         },
         body: formData
       });
-
       const data = await resp.json();
-      console.log(data);
 
-      return 'Nombre de la imagen';
+      if (data.ok) {
+        return data.fileName;
+      } else {
+        console.log(data.msg);
+        return false;
+      }
+
 
     } catch (error) {
       console.error(error);
