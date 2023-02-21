@@ -39,9 +39,16 @@
         <h6 class="card-subtitle">User image</h6>
 
         <img src="" alt="">
-        <input type="file" name="" id="">
+        <input type="file"
+               (change)="changeImage($event.target.files[0])">
         <br><br>
-        <button type="button" class="btn btn-success btn-block waves-effect waves-light m-r-10"><i class="fa fa-upload"></i> Upload</button>
+        <button type="button"
+                class="btn btn-success btn-block waves-effect waves-light m-r-10"
+                [disabled]="!imageToUpload"
+                (click)="uploadImage()">
+                <i class="fa fa-upload"></i>
+          Upload
+        </button>
 
       </div>
     </div>
