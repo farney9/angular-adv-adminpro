@@ -12,27 +12,31 @@ export class UsersComponent implements OnInit {
   totalUsers: number = 0;
   users: UserModel[] = [];
   actualPage: number = 0;
+  isLoading: boolean = true;
 
-  constructor( private userService: UserService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.updateUsersList();
   }
 
-  updateUsersList () {
+  updateUsersList() {
+    this.isLoading = true;
     this.userService.uploadUsers(this.actualPage)
-    .subscribe(
-      {
-        next: ({total, usuario}) => {
-          this.totalUsers = total;
-          if (usuario.length !== 0) {
-            this.users = usuario
+      .subscribe(
+        {
+          next: ({ total, usuario }) => {
+            this.totalUsers = total;
+            if (usuario.length !== 0) {
+              this.users = usuario;
+              this.isLoading = false;
+
+            }
           }
         }
-      }
-    )
+      )
   }
-  changePage( value: number) {
+  changePage(value: number) {
     this.actualPage += value;
 
     if (this.actualPage < 0) {
