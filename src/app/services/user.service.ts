@@ -37,7 +37,6 @@ export class UserService {
     return {
        headers: { 'x-token': this.token }
     }
-
   }
 
   validateToken(): Observable<boolean> {
@@ -118,7 +117,7 @@ export class UserService {
               const usersList = resp.usuario.map(
                   newUser => new UserModel(newUser.name, newUser.email, '', newUser.image, newUser.google, newUser.role, newUser.uid)
                 );
-                console.log(usersList);
+                // console.log(usersList);
               return {
                 total: resp.total,
                 usuario: usersList

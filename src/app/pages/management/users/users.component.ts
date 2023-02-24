@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserModel } from '../../../models/user.model';
+import { SearchesService } from '../../../services/searches.service';
 import { UserService } from '../../../services/user.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class UsersComponent implements OnInit {
   actualPage: number = 0;
   isLoading: boolean = true;
 
-  constructor(private userService: UserService) { }
+  constructor( private userService: UserService,
+               private searchesService: SearchesService ) { }
 
   ngOnInit(): void {
     this.updateUsersList();
@@ -45,6 +47,16 @@ export class UsersComponent implements OnInit {
       this.actualPage -= value;
     }
     this.updateUsersList();
+  }
+
+  searchByTerm( term: string) {
+    this.searchesService.search('usuario', term)
+      .subscribe({
+        next: (response) => {
+          this.users = response
+          
+        }
+      })
   }
 
 }
