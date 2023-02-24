@@ -12,6 +12,7 @@ export class UsersComponent implements OnInit {
 
   totalUsers: number = 0;
   users: UserModel[] = [];
+  usersTemp: UserModel[] = [];
   actualPage: number = 0;
   isLoading: boolean = true;
 
@@ -31,8 +32,8 @@ export class UsersComponent implements OnInit {
             this.totalUsers = total;
             if (usuario.length !== 0) {
               this.users = usuario;
+              this.usersTemp = usuario;
               this.isLoading = false;
-
             }
           }
         }
@@ -50,11 +51,15 @@ export class UsersComponent implements OnInit {
   }
 
   searchByTerm( term: string) {
+    if (term.length === 0) {
+      return this.users = this.usersTemp;
+    }
+
     this.searchesService.search('usuario', term)
       .subscribe({
         next: (response) => {
           this.users = response
-          
+
         }
       })
   }
