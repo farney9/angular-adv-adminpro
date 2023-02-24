@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from "rxjs/operators";
 import { environment } from 'src/environments/environment';
 import { UserLoginRequest, UserRegisterRequest } from '../auth/models/request-user.model';
+import { UploadUserModel } from '../models/upload-user.model';
 import { UserProfileModel } from '../models/user-profile.model';
 import { UserModel } from '../models/user.model';
 
@@ -25,14 +26,19 @@ export class UserService {
     private router: Router,
     private ngZone: NgZone) { }
 
-    get token(): string {
-      return localStorage.getItem('token') || '';
-    }
-    get uid(): string {
-      return this.user.uid || '';
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+  get uid(): string {
+    return this.user.uid || '';
+  }
+
+  get headers(){
+    return {
+       headers: { 'x-token': this.token }
     }
 
-
+  }
 
   validateToken(): Observable<boolean> {
 
@@ -45,7 +51,7 @@ export class UserService {
     }).pipe(
       map((resp: any) => {
         // console.log(resp);
-        const {email, google, image = '', name, role, uid} = resp.userDB; // se usa la desestructuración de objetos
+        const { email, google, image = '', name, role, uid } = resp.userDB; // se usa la desestructuración de objetos
 
         this.user = new UserModel(name, email, '', image, google, role, uid);
         // console.log(this.user);
@@ -73,8 +79,8 @@ export class UserService {
       ...body,
       role: this.user.role
     }
-    
-    return this.http.put(`${apiUrl}/usuario/${this.uid}`, body, {headers: { 'x-token': this.token }});
+
+    return this.http.put(`${apiUrl}/usuario/${this.uid}`, body, { headers: { 'x-token': this.token } });
   }
 
   login(body: UserLoginRequest) {
@@ -102,5 +108,22 @@ export class UserService {
           localStorage.setItem('token', res.token) // Guardo el token el el local storage
         })
       )
+  }
+
+  uploadUsers(from:number = 0) {
+    const url = `${apiUrl}/usuario?desde=${from}`
+    return this.http.get<UploadUserModel>(url, this.headers)
+          .pipe(
+            map( resp => {
+              const usersList = resp.usuario.map(
+                  newUser => new UserModel(newUser.name, newUser.email, '', newUser.image, newUser.google, newUser.role, newUser.uid)
+                );
+                console.log(usersList);
+              return {
+                total: resp.total,
+                usuario: usersList
+              }
+            })
+          )
   }
 }

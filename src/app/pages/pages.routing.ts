@@ -13,6 +13,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UsersComponent } from './management/users/users.component';
 
 const routes: Routes = [
     {
@@ -27,6 +28,10 @@ const routes: Routes = [
           { path: 'progress', component: ProgessBarComponent, data: { title: 'Progess Bar'}},
           { path: 'promesas', component: PromesasComponent, data: { title: 'Promesas'}},
           { path: 'rxjs', component: RxjsComponent, data: { title: 'Rxjs'}},
+
+          //Managenents
+          { path: 'users', component: UsersComponent, data: { title: 'Users'}},
+
         ]
       },
 ];
