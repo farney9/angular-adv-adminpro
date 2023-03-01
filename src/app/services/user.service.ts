@@ -125,4 +125,9 @@ export class UserService {
             })
           )
   }
+
+  delete(user: UserModel) {
+    const url = `${apiUrl}/usuario/${user.uid}`
+    return this.http.delete(url, this.headers);
+  }
 }
