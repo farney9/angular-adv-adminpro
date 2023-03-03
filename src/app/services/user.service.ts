@@ -73,13 +73,17 @@ export class UserService {
       );
   }
 
-  updateUser(body: UserProfileModel) { // tambien se podrria Crear una interfaz
+  updateUser(user: UserModel) { // tambien se podrria Crear una interfaz
+    return this.http.put(`${apiUrl}/usuario/${user.uid}`, user, this.headers);
+  }
+
+  updateUserProfile(body: UserProfileModel) { // tambien se podrria Crear una interfaz
     body = {
       ...body,
       role: this.user.role
     }
 
-    return this.http.put(`${apiUrl}/usuario/${this.uid}`, body, { headers: { 'x-token': this.token } });
+    return this.http.put(`${apiUrl}/usuario/${this.uid}`, body, this.headers);
   }
 
   login(body: UserLoginRequest) {

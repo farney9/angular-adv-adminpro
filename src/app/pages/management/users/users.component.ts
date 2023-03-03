@@ -101,4 +101,11 @@ export class UsersComponent implements OnInit {
 
   }
 
+  changeRole(user: UserModel) {
+    this.userService.updateUser(user)
+    .subscribe( resp => {
+        console.log(resp);
+      })
+  }
+
 }

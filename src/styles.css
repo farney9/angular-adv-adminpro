@@ -14,11 +14,14 @@
   height: auto;
 }
 .avatar {
-  width: 50px;
+  width: 40px;
   height: auto;
   border-radius: 100%;
 }
 
 .table-row-w100 {
   width: 100px;
+}
+.w140 {
+  width: 140px;
 }
