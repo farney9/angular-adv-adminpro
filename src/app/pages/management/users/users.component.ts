@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 
 import { UserModel } from '../../../models/user.model';
+import { ModalService } from '../../../services/modal.service';
 import { SearchesService } from '../../../services/searches.service';
 import { UserService } from '../../../services/user.service';
 
@@ -18,8 +19,9 @@ export class UsersComponent implements OnInit {
   actualPage: number = 0;
   isLoading: boolean = true;
 
-  constructor(private userService: UserService,
-    private searchesService: SearchesService) { }
+  constructor( private userService: UserService,
+               private searchesService: SearchesService,
+               public modalService: ModalService) { }
 
   ngOnInit(): void {
     this.updateUsersList();
@@ -106,6 +108,12 @@ export class UsersComponent implements OnInit {
     .subscribe( resp => {
         console.log(resp);
       })
+  }
+
+  openModal(user: UserModel) {
+    console.log(user);
+
+    this.modalService.showModal();
   }
 
 }

@@ -55,7 +55,11 @@
             </thead>
             <tbody>
               <tr *ngFor="let userItem of users">
-                <td class="text-center"><img class="avatar img-fluid" [src]="userItem.showImageUrl" alt="User avatar"></td>
+                <td class="text-center">
+                  <img class="avatar pointer"
+                       [src]="userItem.showImageUrl" alt="User avatar"
+                       (click)="openModal(userItem)">
+                </td>
                 <td>{{userItem.email}}</td>
                 <td>{{userItem.name}}</td>
                 <td>

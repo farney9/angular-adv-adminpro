@@ -1,6 +1,6 @@
 <div class="background-modal-image"
-     [ngClass]="{'d-none': hideModal}">
-  <div id="responsive-modal" class="modal fade show animated fadeInDown" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     [ngClass]="modalService.hide ? 'd-none': 'd-block'">
+  <div id="responsive-modal" class="modal fade show animated fadeInDown fast" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true" style="display: block;">
     <div class="modal-dialog">
       <div class="modal-content">

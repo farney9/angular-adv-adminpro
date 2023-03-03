@@ -99,9 +99,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
       },
       (err) => {
         // si hay error
+        console.log(err);
+
         Swal.fire({
           title: 'Error!',
-          text: err.error.msg,
+          html: '<b>Backend is offline!</b>',
           icon: 'error'
         })
       }
