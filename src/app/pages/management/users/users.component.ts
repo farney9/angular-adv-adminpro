@@ -18,8 +18,8 @@ export class UsersComponent implements OnInit {
   actualPage: number = 0;
   isLoading: boolean = true;
 
-  constructor( private userService: UserService,
-               private searchesService: SearchesService ) { }
+  constructor(private userService: UserService,
+    private searchesService: SearchesService) { }
 
   ngOnInit(): void {
     this.updateUsersList();
@@ -52,7 +52,7 @@ export class UsersComponent implements OnInit {
     this.updateUsersList();
   }
 
-  searchByTerm( term: string) {
+  searchByTerm(term: string) {
     if (term.length === 0) {
       return this.users = this.usersTemp;
     }
@@ -66,8 +66,16 @@ export class UsersComponent implements OnInit {
       })
   }
 
-  onDelete(user: UserModel){
-    // console.log(user);
+  onDelete(user: UserModel) {
+    if (user.uid === this.userService.uid) {
+      return Swal.fire({
+        title: `Don't allowed`,
+        html: `<b>You can't delete yourself </b>`,
+        icon: 'info'
+      })
+
+    }
+
     Swal.fire({
       title: 'Are you sure?',
       html: `This action will delete the user <b>${user.name}</b>. You won't be able to revert this!`,
@@ -80,7 +88,7 @@ export class UsersComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.userService.delete(user)
-          .subscribe( (resp) => {
+          .subscribe((resp) => {
             Swal.fire(
               'Deleted!',
               `the user <b>${user.name}</b> has been deleted.`,
