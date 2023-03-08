@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 import { UserModel } from '../../../models/user.model';
@@ -11,13 +13,14 @@ import { UserService } from '../../../services/user.service';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
 
   totalUsers: number = 0;
   users: UserModel[] = [];
   usersTemp: UserModel[] = [];
   actualPage: number = 0;
   isLoading: boolean = true;
+  imageSubscription?: Subscription;
 
   constructor( private userService: UserService,
                private searchesService: SearchesService,
@@ -25,6 +28,14 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateUsersList();
+    this.imageSubscription =  this.modalService.newImageEvent
+      .pipe(
+        delay(100)
+      )
+      .subscribe( img =>  this.updateUsersList() );
+  }
+  ngOnDestroy(): void {
+    this.imageSubscription.unsubscribe();
   }
 
   updateUsersList() {
@@ -111,8 +122,8 @@ export class UsersComponent implements OnInit {
   }
 
   openModal(user: UserModel) {
-    // console.log(user);
     this.modalService.showModal('usuario', user.uid, user.image);
+    // console.log(user);
   }
 
 }
