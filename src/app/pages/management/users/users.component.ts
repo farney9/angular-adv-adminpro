@@ -111,9 +111,8 @@ export class UsersComponent implements OnInit {
   }
 
   openModal(user: UserModel) {
-    console.log(user);
-
-    this.modalService.showModal();
+    // console.log(user);
+    this.modalService.showModal('usuario', user.uid, user.image);
   }
 
 }
