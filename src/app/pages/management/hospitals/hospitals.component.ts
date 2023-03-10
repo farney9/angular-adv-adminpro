@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HospitalService } from '../../../services/hospital.service';
 
 @Component({
   selector: 'app-hospitals',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HospitalsComponent implements OnInit {
 
-  constructor() { }
+  isLoading: boolean = true;
+
+
+  constructor( private hospitalService: HospitalService) { }
 
   ngOnInit(): void {
+    this.updateHospitalsList();
+  }
+
+  updateHospitalsList() {
+    this.isLoading = true;
+    this.hospitalService.uploadHospital()
+    .subscribe(hospitalsResponse => {
+      console.log(hospitalsResponse);
+
+    })
   }
 
 }
