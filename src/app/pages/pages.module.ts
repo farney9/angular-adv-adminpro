@@ -15,6 +15,8 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './management/users/users.component';
+import { HospitalsComponent } from './management/hospitals/hospitals.component';
+import { DoctorsComponent } from './management/doctors/doctors.component';
 
 
 
@@ -28,7 +30,9 @@ import { UsersComponent } from './management/users/users.component';
     PromesasComponent,
     RxjsComponent,
     ProfileComponent,
-    UsersComponent
+    UsersComponent,
+    HospitalsComponent,
+    DoctorsComponent
   ],
   exports: [
     DashboardComponent,
