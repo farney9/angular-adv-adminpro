@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { delay } from 'rxjs/operators';
 import { HospitalModel } from '../../../models/hospital.model';
 import { HospitalService } from '../../../services/hospital.service';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-hospitals',
@@ -14,7 +15,8 @@ export class HospitalsComponent implements OnInit {
   hospitals: HospitalModel[] = [];
 
 
-  constructor(private hospitalService: HospitalService) { }
+  constructor( private hospitalService: HospitalService,
+               public modalService: ModalService) { }
 
   ngOnInit(): void {
     this.updateHospitalsList();
@@ -32,6 +34,11 @@ export class HospitalsComponent implements OnInit {
             this.isLoading = false
           }
         })
+  }
+
+  openModal(hospital: HospitalModel) {
+    // this.modalService.showModal('hospital', this.hospitals., hospital.image);
+    // console.log(user);
   }
 
 }

@@ -25,12 +25,24 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Total Hospitals
-          <span class="label label-rouded label-themecolor pull-1">
-            {{hospitals.length}}
-          </span>
-        </h4>
-        <h6 class="card-subtitle">Registered Hospitals</h6>
+        <div class="row">
+          <div class="col-8">
+            <h4 class="card-title">Total Hospitals
+              <span class="label label-rouded label-themecolor pull-1">
+                {{hospitals.length}}
+              </span>
+            </h4>
+            <h6 class="card-subtitle">Registered Hospitals</h6>
+          </div>
+          <div class="col">
+            <div class="text-right">
+              <button class="btn btn-primary m-t-5 m-b-10"
+                      (click)="openModal(hospitalItem)">
+                <i class="fa fa-plus"> Add New</i>
+              </button>
+            </div>
+          </div>
+        </div>
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>

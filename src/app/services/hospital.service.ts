@@ -20,9 +20,9 @@ export class HospitalService {
     return localStorage.getItem('token') || '';
   }
 
-  get headers(){
+  get headers() {
     return {
-       headers: { 'x-token': this.token }
+      headers: { 'x-token': this.token }
     }
   }
 
@@ -30,8 +30,29 @@ export class HospitalService {
     const url = `${apiUrl}/hospital`
     return this.http.get(url, this.headers)
       .pipe(
-        map((resp: {ok: boolean, hospital: HospitalModel[]}) => resp.hospital)
+        map((resp: { ok: boolean, hospital: HospitalModel[] }) => resp.hospital)
       )
+  }
+
+  add(hospitalName: string) {
+    const url = `${apiUrl}/hospital`
+    return this.http.post(url, { hospitalName }, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, hospital: HospitalModel[] }) => resp.hospital)
+      )
+  }
+
+  edit(hospitalId: string, hospitalName: string ) {
+    const url = `${apiUrl}/hospital/${hospitalId}`
+    return this.http.put(url, { hospitalName }, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, hospital: HospitalModel[] }) => resp.hospital)
+      )
+  }
+
+  delete(hospitalId: string) {
+    const url = `${apiUrl}/hospital/${hospitalId}`
+    return this.http.delete(url, this.headers);
   }
 }
 
