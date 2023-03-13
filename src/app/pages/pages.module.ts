@@ -4,6 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ComponentsModule } from '../components/components.module';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -47,7 +48,8 @@ import { DoctorsComponent } from './management/doctors/doctors.component';
     RouterModule,
     SharedModule,
     ComponentsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ]
 })
 export class PagesModule { }

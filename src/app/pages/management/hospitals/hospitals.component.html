@@ -42,7 +42,13 @@
             </thead>
             <tbody>
               <tr *ngFor="let hospitalItem of hospitals">
-                <td>{{hospitalItem.image}}</td>
+                <td class="text-center">
+                  <img class="img-fluid pointer"
+                       [src]="hospitalItem.image | imagePipe: 'hospital'"
+                       [alt]="hospitalItem.name">
+                  <!-- {{hospitalItem.image | imagePipe: 'hospital'}} -->
+
+                </td>
                 <td>
                   <input type="text"
                          class="form-control"
