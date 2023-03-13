@@ -12,7 +12,7 @@
     </div>
   </div>
 </div>
-<div class="row animate animated fadeIn slow">
+<div *ngIf="isLoading" class="row animate animated fadeIn slow">
   <div class="col-12">
     <div class="alert alert-info text-center">
       <h4 class="alert-heading">Loading</h4>
@@ -21,11 +21,15 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div *ngIf="!isLoading" class="row animate animated fadeIn slow">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Hospitals</h4>
+        <h4 class="card-title">Total Hospitals
+          <span class="label label-rouded label-themecolor pull-1">
+            {{hospitals.length}}
+          </span>
+        </h4>
         <h6 class="card-subtitle">Registered Hospitals</h6>
         <div class="table-responsive">
           <table class="table table-bordered">
@@ -37,17 +41,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Lunar probe project</td>
+              <tr *ngFor="let hospitalItem of hospitals">
+                <td>{{hospitalItem.image}}</td>
                 <td>
                   <input type="text"
                          class="form-control"
-                         placeholder="Hospital name">
+                         placeholder="Hospital name"
+                         [(ngModel)]="hospitalItem.name">
+
                 </td>
                 <td class="text-nowrap text-center">
                   <a href="#" data-toggle="tooltip" data-original-title="Save"> <i
                       class="fa fa-save text-inverse m-r-10"></i> </a>
-                  <a href="#" data-toggle="tooltip" data-original-title="Delete"> <i class="fa fa-trash text-danger"></i>
+                  <a href="#" data-toggle="tooltip" data-original-title="Delete"> <i
+                      class="fa fa-trash text-danger"></i>
                   </a>
                 </td>
               </tr>

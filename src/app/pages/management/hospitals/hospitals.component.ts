@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { delay } from 'rxjs/operators';
+import { HospitalModel } from '../../../models/hospital.model';
 import { HospitalService } from '../../../services/hospital.service';
 
 @Component({
@@ -9,9 +11,10 @@ import { HospitalService } from '../../../services/hospital.service';
 export class HospitalsComponent implements OnInit {
 
   isLoading: boolean = true;
+  hospitals: HospitalModel[] = [];
 
 
-  constructor( private hospitalService: HospitalService) { }
+  constructor(private hospitalService: HospitalService) { }
 
   ngOnInit(): void {
     this.updateHospitalsList();
@@ -20,10 +23,15 @@ export class HospitalsComponent implements OnInit {
   updateHospitalsList() {
     this.isLoading = true;
     this.hospitalService.uploadHospital()
-    .subscribe(hospitalsResponse => {
-      console.log(hospitalsResponse);
-
-    })
+      .pipe( delay(500))
+      .subscribe(
+        {
+          next: (hospitalsResponse) => {
+            console.log(hospitalsResponse);
+            this.hospitals = hospitalsResponse;
+            this.isLoading = false
+          }
+        })
   }
 
 }
