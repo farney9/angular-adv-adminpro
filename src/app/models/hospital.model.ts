@@ -8,8 +8,8 @@ export interface HospitalUserModel{
 export class HospitalModel {
 
 
-  constructor( public name: string,
-               public _id: string,
+  constructor( public id: string,
+               public name: string,
                public image?: string,
                public user?: HospitalUserModel,
                ) {

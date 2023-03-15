@@ -36,17 +36,17 @@ export class HospitalService {
 
   add(hospitalName: string) {
     const url = `${apiUrl}/hospital`
-    return this.http.post(url, { hospitalName }, this.headers)
+    return this.http.post(url, { name: hospitalName }, this.headers)
       .pipe(
-        map((resp: { ok: boolean, hospital: HospitalModel[] }) => resp.hospital)
+        map((resp: { ok: boolean, hospital: HospitalModel}) => resp.hospital)
       )
   }
 
   edit(hospitalId: string, hospitalName: string ) {
     const url = `${apiUrl}/hospital/${hospitalId}`
-    return this.http.put(url, { hospitalName }, this.headers)
+    return this.http.put(url, { name: hospitalName }, this.headers)
       .pipe(
-        map((resp: { ok: boolean, hospital: HospitalModel[] }) => resp.hospital)
+        map((resp: { ok: boolean, hospital: HospitalModel }) => resp.hospital)
       )
   }
 

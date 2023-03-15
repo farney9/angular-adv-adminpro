@@ -37,7 +37,7 @@
           <div class="col">
             <div class="text-right">
               <button class="btn btn-primary m-t-5 m-b-10"
-                      (click)="openModal(hospitalItem)">
+                      (click)="openSweetAlertAddNew()">
                 <i class="fa fa-plus"> Add New</i>
               </button>
             </div>
@@ -56,10 +56,9 @@
               <tr *ngFor="let hospitalItem of hospitals">
                 <td class="text-center">
                   <img class="img-fluid pointer"
+                      (click)="openModal(hospitalItem)"
                        [src]="hospitalItem.image | imagePipe: 'hospital'"
                        [alt]="hospitalItem.name">
-                  <!-- {{hospitalItem.image | imagePipe: 'hospital'}} -->
-
                 </td>
                 <td>
                   <input type="text"
@@ -69,10 +68,17 @@
 
                 </td>
                 <td class="text-nowrap text-center">
-                  <a href="#" data-toggle="tooltip" data-original-title="Save"> <i
-                      class="fa fa-save text-inverse m-r-10"></i> </a>
-                  <a href="#" data-toggle="tooltip" data-original-title="Delete"> <i
-                      class="fa fa-trash text-danger"></i>
+                  <a (click)="editHospital(hospitalItem)"
+                     class="pointer"
+                     data-toggle="tooltip"
+                     data-original-title="Save">
+                    <i class="fa fa-pencil text-primary m-r-10"></i>
+                  </a>
+                  <a (click)="deleteHospital(hospitalItem)"
+                     class="pointer"
+                     data-toggle="tooltip"
+                     data-original-title="Delete">
+                     <i class="fa fa-trash text-danger"></i>
                   </a>
                 </td>
               </tr>
