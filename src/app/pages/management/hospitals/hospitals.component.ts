@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { HospitalModel } from '../../../models/hospital.model';
 import { HospitalService } from '../../../services/hospital.service';
 import { ModalService } from '../../../services/modal.service';
+import { SearchesService } from '../../../services/searches.service';
 
 @Component({
   selector: 'app-hospitals',
@@ -16,10 +17,13 @@ export class HospitalsComponent implements OnInit {
   isLoading: boolean = true;
   imageSubscription?: Subscription;
   hospitals: HospitalModel[] = [];
+  hospitalsTemp: HospitalModel[] = [];
+
 
 
   constructor( private hospitalService: HospitalService,
-               public modalService: ModalService) { }
+               public modalService: ModalService,
+               private searchesService: SearchesService) { }
 
   ngOnInit(): void {
     this.updateHospitalsList();
@@ -28,21 +32,35 @@ export class HospitalsComponent implements OnInit {
     .subscribe( img =>  this.updateHospitalsList() );
   }
 
+  searchByTerm(term: string) {
+    if (term.length === 0) {
+      return this.hospitals = this.hospitalsTemp;
+    }
+
+    this.searchesService.search('hospital', term)
+      .subscribe({
+        next: (response: HospitalModel[]) => {
+          this.hospitals = response 
+        }
+      })
+  }
+
   updateHospitalsList() {
     this.isLoading = true;
     this.hospitalService.uploadHospital()
-      .pipe(delay(500))
+      // .pipe(delay(100))
       .subscribe(
         {
           next: (hospitalsResponse) => {
             this.hospitals = hospitalsResponse;
+            this.hospitalsTemp = hospitalsResponse;
             this.isLoading = false
           }
         })
   }
 
   async openSweetAlertAddNew() {
-    const { value } = await Swal.fire<string>({
+    const { value = '' } = await Swal.fire<string>({
       title: 'Add new Hospital',
       input: 'text',
       html: '<b>Hospital Name</b>',
@@ -132,5 +150,7 @@ export class HospitalsComponent implements OnInit {
     this.modalService.showModal('hospital', hospital.id, hospital.image);
     // console.log(user);
   }
+
+
 
 }

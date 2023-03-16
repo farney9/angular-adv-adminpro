@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { HospitalModel } from '../models/hospital.model';
 import { UserModel } from '../models/user.model';
 
 const apiUrl = environment.apiUrl;
@@ -29,11 +30,11 @@ export class SearchesService {
       returnedUser => new UserModel(returnedUser.name, returnedUser.email, '', returnedUser.image, returnedUser.google, returnedUser.role, returnedUser.uid)
     )
   }
+  private transformedHospitalsList(hospitalsList: any[]): HospitalModel[] {
+    return hospitalsList;
+  }
 
-  search(
-    userType: 'usuario' | 'doctor' | 'hospital',
-    searchTerm: string = ''
-  ) {
+  search( userType: 'usuario' | 'doctor' | 'hospital', searchTerm: string = '') {
     const url = `${apiUrl}/search/collection/${userType}/${searchTerm}`
     return this.http.get<any[]>(url, this.headers)
       .pipe(
@@ -41,6 +42,8 @@ export class SearchesService {
           switch (userType) {
             case 'usuario':
               return this.transformedUsersList(resp.results)
+            case 'hospital':
+              return this.transformedHospitalsList(resp.results)
 
             default:
               return []
