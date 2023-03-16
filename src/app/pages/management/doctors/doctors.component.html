@@ -1,1 +1,80 @@
-<p>doctors works!</p>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon"><i class="ti-search"></i></div>
+            <input type="text" class="form-control" id="exampleInputuname" placeholder="Search doctor...">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="row animate animated fadeIn slow">
+  <div class="col-12">
+    <div class="alert alert-info text-center">
+      <h4 class="alert-heading">Loading</h4>
+      <i class="fa fa-spin fa-refresh fa-2x"></i>
+      <p class="mb-0">Please wait..</p>
+    </div>
+  </div>
+</div>
+<div *ngIf="!isLoading"  class="row animate animated fadeIn slow">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-8">
+            <h4 class="card-title">Total Doctors
+              <span class="label label-rouded label-themecolor pull-1">
+                {{doctors.length}}
+              </span>
+            </h4>
+            <h6 class="card-subtitle">Registered Doctors</h6>
+          </div>
+          <div class="col">
+            <div class="text-right">
+              <button class="btn btn-primary m-t-5 m-b-10"
+                      (click)="openSweetAlertAddNew()">
+                <i class="fa fa-plus"> Add New</i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="table-row-w100">Image</th>
+                <th>Name</th>
+                <th class="text-nowrap table-row-w100">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let doctorItem of doctors">
+                <td class="text-center">
+                  <img class="img-fluid pointer"
+                      (click)="openModal(doctorItem)"
+                       [src]="doctorItem.image | imagePipe: 'doctor'"
+                       [alt]="doctorItem.name">
+                </td>
+                <td>{{doctorItem.name}}</td>
+                <td class="text-nowrap text-center">
+                  <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i
+                      class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                  <a href="#" data-toggle="tooltip" data-original-title="Delete"> <i class="fa fa-trash text-danger"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="btn btn-secondary m-r-10"><i class="fa fa-arrow-left"> Previous</i></button>
+        <button class="btn btn-secondary">Next <i class="fa fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
