@@ -32,11 +32,34 @@ export class DoctorService {
       )
   }
 
-  add(doctorName: string, hospitalId: string) {
-    const url = `${apiUrl}/doctor`
-    return this.http.post(url, { name: doctorName, hospital: hospitalId }, this.headers)
+  getDoctorById(doctorId: string) {
+    const url = `${apiUrl}/doctor/${doctorId}`
+    return this.http.get(url, this.headers)
       .pipe(
-        map((resp: { ok: boolean, doctor: DoctorModel}) => resp.doctor)
+        map((resp: { ok: boolean, doctor: DoctorModel }) => resp.doctor)
       )
+
+  }
+
+  add(doctor: {name: string, hospital: string}) {
+
+    const url = `${apiUrl}/doctor`
+    return this.http.post(url, doctor, this.headers);
+      // .pipe(
+      //   map((resp: { ok: boolean, doctor: {name: string, hospital: string}}) => resp.doctor)
+      // )
+  }
+
+  edit(doctor: DoctorModel ) {
+    const url = `${apiUrl}/doctor/${doctor.id}`
+    return this.http.put(url, { name: doctor.name, hospital: doctor.hospital._id}, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, doctor: DoctorModel }) => resp.doctor)
+      )
+  }
+
+  delete(doctorId: string) {
+    const url = `${apiUrl}/doctor/${doctorId}`
+    return this.http.delete(url, this.headers);
   }
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { DoctorModel } from '../models/doctor.model';
 import { HospitalModel } from '../models/hospital.model';
 import { UserModel } from '../models/user.model';
 
@@ -30,8 +31,13 @@ export class SearchesService {
       returnedUser => new UserModel(returnedUser.name, returnedUser.email, '', returnedUser.image, returnedUser.google, returnedUser.role, returnedUser.uid)
     )
   }
+
   private transformedHospitalsList(hospitalsList: any[]): HospitalModel[] {
     return hospitalsList;
+  }
+
+  private transformedDoctorsList(doctorsList: any[]): DoctorModel[] {
+    return doctorsList;
   }
 
   search( userType: 'usuario' | 'doctor' | 'hospital', searchTerm: string = '') {
@@ -44,6 +50,8 @@ export class SearchesService {
               return this.transformedUsersList(resp.results)
             case 'hospital':
               return this.transformedHospitalsList(resp.results)
+            case 'doctor':
+              return this.transformedDoctorsList(resp.results)
 
             default:
               return []

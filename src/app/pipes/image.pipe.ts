@@ -9,8 +9,6 @@ const apiUrl = environment.apiUrl;
 export class ImagePipe implements PipeTransform {
 
   transform(imageUrl: string, userType: 'usuario' | 'doctor' | 'hospital'): string {
-    // return `Hola Mundo!! ${imageUrl} ${userType}`;
-
     if (!imageUrl) {
       return `${apiUrl}/uploads/usuario/noimage`;
     } else if (imageUrl.includes('https')) {
@@ -21,5 +19,4 @@ export class ImagePipe implements PipeTransform {
       return `${apiUrl}/uploads/usuario/noimage`;
     }
   }
-
 }

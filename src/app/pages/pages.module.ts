@@ -20,8 +20,6 @@ import { HospitalsComponent } from './management/hospitals/hospitals.component';
 import { DoctorsComponent } from './management/doctors/doctors.component';
 import { DoctorDetailsComponent } from './management/doctor-details/doctor-details.component';
 
-
-
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -35,7 +33,7 @@ import { DoctorDetailsComponent } from './management/doctor-details/doctor-detai
     UsersComponent,
     HospitalsComponent,
     DoctorsComponent,
-    DoctorDetailsComponent
+    DoctorDetailsComponent,
   ],
   exports: [
     DashboardComponent,

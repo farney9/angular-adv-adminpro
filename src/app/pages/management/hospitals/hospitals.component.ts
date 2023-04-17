@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import Swal from 'sweetalert2';
@@ -12,7 +12,7 @@ import { SearchesService } from '../../../services/searches.service';
   templateUrl: './hospitals.component.html',
   styleUrls: ['./hospitals.component.css']
 })
-export class HospitalsComponent implements OnInit {
+export class HospitalsComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = true;
   imageSubscription?: Subscription;
@@ -21,15 +21,19 @@ export class HospitalsComponent implements OnInit {
 
 
 
-  constructor( private hospitalService: HospitalService,
-               public modalService: ModalService,
-               private searchesService: SearchesService) { }
+  constructor(private hospitalService: HospitalService,
+    public modalService: ModalService,
+    private searchesService: SearchesService) { }
+
+  ngOnDestroy(): void {
+    this.imageSubscription.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.updateHospitalsList();
-    this.imageSubscription =  this.modalService.newImageEvent
-    .pipe( delay(100))
-    .subscribe( img =>  this.updateHospitalsList() );
+    this.imageSubscription = this.modalService.newImageEvent
+      .pipe(delay(100))
+      .subscribe(img => this.updateHospitalsList());
   }
 
   searchByTerm(term: string) {
@@ -40,7 +44,7 @@ export class HospitalsComponent implements OnInit {
     this.searchesService.search('hospital', term)
       .subscribe({
         next: (response: HospitalModel[]) => {
-          this.hospitals = response 
+          this.hospitals = response
         }
       })
   }
@@ -96,11 +100,12 @@ export class HospitalsComponent implements OnInit {
           },
           error: (err) => {
             console.log(err);
-          Swal.fire('Error', err.error.msg,'error');
+            Swal.fire('Error', err.error.msg, 'error');
           }
         }
       )
   }
+  
   editHospital(hospital: HospitalModel) {
     // console.log(hospital);
 
@@ -117,7 +122,7 @@ export class HospitalsComponent implements OnInit {
           },
           error: (err) => {
             console.log(err);
-          Swal.fire('Error', err.error.msg,'error');
+            Swal.fire('Error', err.error.msg, 'error');
           }
         }
       )
@@ -126,24 +131,39 @@ export class HospitalsComponent implements OnInit {
   deleteHospital(hospital: HospitalModel) {
     // console.log(hospital);
 
-    this.hospitalService.delete(hospital.id)
-      .subscribe(
-        {
-          next: (hospitalResponse: any) => {
-            console.log(hospitalResponse);
-            Swal.fire({
-              title: `${hospital.name}`,
-              html: `<b>${hospitalResponse.msg}</b>`,
-              icon: 'success'
-            });
-            this.updateHospitalsList();
-          },
-          error: (err) => {
-            console.log(err);
-          Swal.fire('Error', err.error.msg,'error');
-          }
-        }
-      )
+    Swal.fire({
+      title: 'Are you sure?',
+      html: `This action will delete the hospital <b>${hospital.name}</b>. You won't be able to revert this!`,
+      icon: 'question',
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.hospitalService.delete(hospital.id)
+          .subscribe(
+            {
+              next: (hospitalResponse: any) => {
+                console.log(hospitalResponse);
+                Swal.fire({
+                  title: `${hospital.name}`,
+                  html: `<b>${hospitalResponse.msg}</b>`,
+                  icon: 'success',
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+                this.updateHospitalsList();
+              },
+              error: (err) => {
+                console.log(err);
+                Swal.fire('Error', err.error.msg, 'error');
+              }
+            }
+          )
+      }
+    })
   }
 
   openModal(hospital: HospitalModel) {

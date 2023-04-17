@@ -1,10 +1,10 @@
 
-export interface DoctorUserModel{
+export interface DoctorUserModel {
   _id: string;
   name: string;
   image: string;
 }
-export interface DoctorHospitalModel{
+export interface DoctorHospitalModel {
   _id: string;
   name: string;
   image: string;
@@ -18,8 +18,5 @@ export class DoctorModel {
     public image: string,
     public user?: DoctorUserModel,
     public hospital?: DoctorHospitalModel
-
-  ) {
-
-  }
+  ) { }
 }

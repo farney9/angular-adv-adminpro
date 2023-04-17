@@ -37,7 +37,6 @@ const routes: Routes = [
           { path: 'hospitals', component: HospitalsComponent, data: { title: 'Hospitals management'}},
           { path: 'doctors', component: DoctorsComponent, data: { title: 'Doctors management'}},
           { path: 'doctors/:id', component: DoctorDetailsComponent, data: { title: 'Doctor details'}},
-
         ]
       },
 ];
