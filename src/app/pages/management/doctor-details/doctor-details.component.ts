@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { delay } from 'rxjs';
+import { delay, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 import { DoctorModel } from '../../../models/doctor.model';
@@ -9,24 +9,27 @@ import { HospitalModel } from '../../../models/hospital.model';
 
 import { DoctorService } from '../../../services/doctor.service';
 import { HospitalService } from '../../../services/hospital.service';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-doctor-details',
   templateUrl: './doctor-details.component.html',
   styleUrls: ['./doctor-details.component.css']
 })
-export class DoctorDetailsComponent implements OnInit {
+export class DoctorDetailsComponent implements OnInit, OnDestroy {
 
   doctorForm: FormGroup;
   hospitals: HospitalModel[] = [];
   selectedHospital: HospitalModel;
   doctorSelected: DoctorModel
+  imageSubscription?: Subscription;
 
 
   constructor(private fb: FormBuilder,
     private hospitalService: HospitalService,
     private doctorService: DoctorService,
     private router: Router,
+    private modalService: ModalService,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -44,6 +47,14 @@ export class DoctorDetailsComponent implements OnInit {
       .subscribe(newValue => {
         this.selectedHospital = this.hospitals.find(h => h.id === newValue)
       })
+
+      this.imageSubscription = this.modalService.newImageEvent
+      .pipe(delay(100))
+      .subscribe(img => this.loadDoctor(this.doctorSelected.id));
+  }
+
+  ngOnDestroy(): void {
+    this.imageSubscription.unsubscribe();
   }
 
   loadDoctor(doctorId: string) {
@@ -153,6 +164,10 @@ export class DoctorDetailsComponent implements OnInit {
 
   goToBack() {
     this.router.navigateByUrl(`/dashboard/doctors`);
+  }
+
+  openModal(doctor: DoctorModel) {
+    this.modalService.showModal('doctor', doctor.id, doctor.image);
   }
 
 }

@@ -2,8 +2,8 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">New Doctor</h4>
-        <h6 class="card-subtitle">Doctor information</h6>
+        <h4 class="card-title">Doctor information</h4>
+        <!-- <h6 class="card-subtitle">Doctor information</h6> -->
         <form class="form-horizontal p-t-20"
               [formGroup]="doctorForm"
               (submit)="addDoctor()">
@@ -11,7 +11,10 @@
             <label for="doctorName" class="col-sm-3 control-label">Photo</label>
             <div class="col-sm-9">
               <div class="text-center">
-                <img class="w140 img-fluid" [src]="doctorSelected.image | imagePipe:'doctor'" alt="">
+                <img class="w140 img-fluid pointer img-thumbnail"
+                      (click)="openModal(doctorSelected)"
+                     [src]="doctorSelected.image | imagePipe:'doctor'" alt=""
+                >
               </div>
             </div>
           </div>
