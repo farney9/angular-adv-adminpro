@@ -50,13 +50,22 @@ export class DoctorService {
       // )
   }
 
-  edit(doctor: DoctorModel ) {
+  edit(doctor: {name: string, hospital: string, id: string}) {
     const url = `${apiUrl}/doctor/${doctor.id}`
-    return this.http.put(url, { name: doctor.name, hospital: doctor.hospital._id}, this.headers)
-      .pipe(
-        map((resp: { ok: boolean, doctor: DoctorModel }) => resp.doctor)
-      )
+    return this.http.put(url, doctor, this.headers)
+      // .pipe(
+      //   map((resp: { ok: boolean, doctor: string }) => resp.doctor)
+      // )
+
   }
+
+  // edit(doctor: DoctorModel ) {
+  //   const url = `${apiUrl}/doctor/${doctor.id}`
+  //   return this.http.put(url, { name: doctor.name, hospital: doctor.hospital._id}, this.headers)
+  //     .pipe(
+  //       map((resp: { ok: boolean, doctor: DoctorModel }) => resp.doctor)
+  //     )
+  // }
 
   delete(doctorId: string) {
     const url = `${apiUrl}/doctor/${doctorId}`

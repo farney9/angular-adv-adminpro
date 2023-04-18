@@ -11,7 +11,7 @@
             <label for="doctorName" class="col-sm-3 control-label">Photo</label>
             <div class="col-sm-9">
               <div class="text-center">
-                <img class="w140 img-fluid" [src]="doctorSelected | imagePipe:'doctor'" alt="">
+                <img class="w140 img-fluid" [src]="doctorSelected.image | imagePipe:'doctor'" alt="">
               </div>
             </div>
           </div>
@@ -45,13 +45,20 @@
               </div>
             </div>
           </div>
-          <button type="submit"
-                  [disabled]="doctorForm.invalid"
-                  class="btn btn-success waves-effect waves-light m-r-10"
+          <button type="button"
+                  class="btn btn-secondary waves-effect waves-light m-r-10"
+                  (click)="goToBack()"
                   >
-            <i class="fa fa-save"></i>
-            Save
+            <i class="fa fa-chevron-left"></i>
+            Back
           </button>
+          <button type="submit"
+          [disabled]="doctorForm.invalid"
+          class="btn btn-success waves-effect waves-light m-r-10"
+          >
+    <i class="fa fa-save"></i>
+    Save
+  </button>
         </form>
       </div>
     </div>
