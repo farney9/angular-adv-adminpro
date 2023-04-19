@@ -62,7 +62,7 @@ export class DoctorDetailsComponent implements OnInit, OnDestroy {
     if (doctorId === 'new') {
       return; //no carga el médico (no existe) si estamos creando uno nuevo
     }
-    console.log(doctorId);
+    // console.log(doctorId);
 
     if (doctorId.match(/^[0-9a-fA-F]{24}$/)) {
 

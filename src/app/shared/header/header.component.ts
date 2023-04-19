@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserModel } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 
@@ -13,14 +14,24 @@ export class HeaderComponent {
   user: UserModel;
 
 
-  constructor(public userService: UserService) {
+  constructor( private userService: UserService,
+               private router: Router) {
     this.user = userService.user;
 
    }
 
   logOut() {
     this.userService.logOut();
-
   }
+
+  // searchAll(term: string) {
+  //   console.log(term);
+  //   if ( term.length === 0 ) {
+  //     return;
+  //   }
+
+  //   this.router.navigateByUrl(`/dashboard/search/${term}`);
+
+  // }
 
 }

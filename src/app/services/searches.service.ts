@@ -59,4 +59,8 @@ export class SearchesService {
         })
       );
   }
+  searchAll(searchTerm: string = '') {
+    const url = `${apiUrl}/search/${searchTerm}`
+    return this.http.get(url, this.headers);
+  }
 }
