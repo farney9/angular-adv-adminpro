@@ -47,12 +47,12 @@ export class GlobalSearchComponent implements OnInit {
        )
   }
 
-  openDoctor(doctor: DoctorModel) {
-    if ( !doctor) {
-      return;
-    }
+  // openDoctor(doctor: DoctorModel) {
+  //   if ( !doctor) {
+  //     return;
+  //   }
 
-    this.router.navigateByUrl(`/dashboard/doctors/${doctor.id}`);
-  }
+  //   this.router.navigateByUrl(`/dashboard/doctors/${doctor.id}`);
+  // }
 
 }

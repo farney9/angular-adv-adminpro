@@ -39,6 +39,11 @@ export class UserService {
     }
   }
 
+  saveLocalStorage(token: string, menu: any) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('menu', JSON.stringify(menu) );
+  }
+
   validateToken(): Observable<boolean> {
 
     google.accounts.id.initialize({
@@ -54,8 +59,7 @@ export class UserService {
 
         this.user = new UserModel(name, email, '', image, google, role, uid);
         // console.log(this.user);
-
-        localStorage.setItem('token', resp.token)
+        this.saveLocalStorage(resp.token, resp.menu);
         return true;
       }),
       // ahora transformamos la respuesta a un valor booleano
@@ -67,8 +71,8 @@ export class UserService {
   add(body: UserRegisterRequest) {
     return this.http.post(`${apiUrl}/usuario`, body)
       .pipe(
-        tap((res: any) => {
-          localStorage.setItem('token', res.token)
+        tap((resp: any) => {
+          this.saveLocalStorage(resp.token, resp.menu);
         })
       );
   }
@@ -89,15 +93,16 @@ export class UserService {
   login(body: UserLoginRequest) {
     return this.http.post(`${apiUrl}/login`, body)
       .pipe(
-        tap((res: any) => {
+        tap((resp: any) => {
           // console.log(res);
-          localStorage.setItem('token', res.token)
+          this.saveLocalStorage(resp.token, resp.menu);
         })
       );
   }
 
   logOut() {
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
     google.accounts.id.revoke('farney9@gmail.com', () => {
       this.router.navigateByUrl('/login');
     })
@@ -106,9 +111,9 @@ export class UserService {
   loginGoogle(token: string) {
     return this.http.post(`${apiUrl}/login/google`, { token })
       .pipe(
-        tap((res: any) => { // tap me permite disparar un efecto secundario
+        tap((resp: any) => { // tap me permite disparar un efecto secundario
           // console.log(res);
-          localStorage.setItem('token', res.token) // Guardo el token el el local storage
+          this.saveLocalStorage(resp.token, resp.menu);// Guardo el token y el menú en el local storage
         })
       )
   }

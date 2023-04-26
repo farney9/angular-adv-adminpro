@@ -24,14 +24,14 @@ export class HeaderComponent {
     this.userService.logOut();
   }
 
-  // searchAll(term: string) {
-  //   console.log(term);
-  //   if ( term.length === 0 ) {
-  //     return;
-  //   }
+  searchAll(term: string) {
+    console.log(term);
+    if ( term.length === 0 ) {
+      return;
+    }
 
-  //   this.router.navigateByUrl(`/dashboard/search/${term}`);
+    this.router.navigateByUrl(`/dashboard/search/${term}`);
 
-  // }
+  }
 
 }
