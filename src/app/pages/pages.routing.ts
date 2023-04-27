@@ -18,6 +18,7 @@ import { HospitalsComponent } from './management/hospitals/hospitals.component';
 import { DoctorsComponent } from './management/doctors/doctors.component';
 import { DoctorDetailsComponent } from './management/doctor-details/doctor-details.component';
 import { GlobalSearchComponent } from './global-search/global-search.component';
+import { AdminGuard } from '../guards/admin.guard';
 
 const routes: Routes = [
     {
@@ -38,7 +39,9 @@ const routes: Routes = [
           { path: 'doctors', component: DoctorsComponent, data: { title: 'Doctors management'}},
           { path: 'doctors/:id', component: DoctorDetailsComponent, data: { title: 'Doctor details'}},
           { path: 'hospitals', component: HospitalsComponent, data: { title: 'Hospitals management'}},
-          { path: 'users', component: UsersComponent, data: { title: 'Users management'}},
+
+          //Rutas de ADMIN_ROLE
+          { path: 'users', canActivate: [AdminGuard], component: UsersComponent, data: { title: 'Users management'}},
         ]
       },
 ];

@@ -18,7 +18,5 @@ export class PagesComponent implements OnInit {
     //  ./assets/css/colors/purple-dark.css
     customInitFunctions();
     this.sidebarService.loadMenu();
-    console.log(this.sidebarService.menu);
-
   }
 }
