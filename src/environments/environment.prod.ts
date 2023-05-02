@@ -2,5 +2,6 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: 'admin-pro-backend-production-f660.up.railway.app:6320/api'
+  // apiUrl: 'http://localhost:3000/api'
 };
