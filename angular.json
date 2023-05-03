@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["ng2-charts.js"],
+            "allowedCommonJsDependencies": ["chart.js"],
             "outputPath": "dist/adminpro",
             "index": "src/index.html",
             "main": "src/main.ts",
